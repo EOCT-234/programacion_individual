@@ -1,0 +1,142 @@
+---
+title: "DATA"
+author: "Edgar"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+library(readr)
+LA_MOLINA_2014_POTATO_WUE_FB_fb <- read_csv("C:/Users/ASUS/Downloads/LA MOLINA 2014 POTATO WUE (FB) - fb.csv")
+View(LA_MOLINA_2014_POTATO_WUE_FB_fb)
+```
+
+Diseño factorial con arreglo en bloques
+
+𝑌𝑖𝑗𝑘=𝜇+𝛼𝑖+𝛽𝑗+(𝛼𝛽)𝑖𝑗+𝛾𝑘+𝜖𝑖𝑗𝑘
+
+𝛼 = riego
+
+𝛽 = genotipo
+
+𝛾 =
+
+ANOVA
+
+Modelo:
+
+\>diseño factorial en lboques completos al azar
+
+$$
+ tubdw  = \mu+riego+genotipo+riego*genotipo+bloque+e
+$$
+
+```{r}
+md <- aov(tubdw ~ riego + geno + riego*geno + bloque, data = LA_MOLINA_2014_POTATO_WUE_FB_fb)
+anova(md)
+
+
+```
+
+de la tabla:
+
+primera columna: son elemento (riego, geno, block
+
+segunda columna: grados de libertad
+
+tercera columna: suma de cuadrados
+
+cuarta columna: cuadrado medio
+
+quinta columna: f valor
+
+sexta columna: p valor (probabilidad de que se obtenga los mismos resultados = 0.95)
+
+cunado se hace un analisis factorial, el anova se lee desde abajo hacia arriba:
+
+-   ver si hay diferencias entre la interacción (riego \* genotipo): si nos significativa signfica que el primer factor no intefiere en la repsuesta dada por el factor 2.
+
+-   bloque: interacción si hay signifcancia quiere decir que el error se ha disminuido
+
+-   genotipo: hay un genotipo que si hay respondido bien (es mejor que los demás)
+
+-   riego: hay un riego
+
+en el cuadro anova el número de bloques está mal evaluado, esto se debe a que block esta como número y debe estar en factor (letra y/o combinar con un caracter)
+
+programar: modelo tydiverse y modelo base
+
+corregir base de datos: riego, geno y bloque se conviertan a factores
+
+```{r}
+LA_MOLINA_2014_POTATO_WUE_FB_fb[c("riego", "geno", "bloque")] <- lapply(LA_MOLINA_2014_POTATO_WUE_FB_fb[c("riego", "geno", "bloque")], as.factor)
+
+LA_MOLINA_2014_POTATO_WUE_FB_fb[] <- lapply(LA_MOLINA_2014_POTATO_WUE_FB_fb, as.factor)
+
+LA_MOLINA_2014_POTATO_WUE_FB_fb[sapply(LA_MOLINA_2014_POTATO_WUE_FB_fb, is.character)] <- lapply(LA_MOLINA_2014_POTATO_WUE_FB_fb[sapply(LA_MOLINA_2014_POTATO_WUE_FB_fb, is.character)], as.factor)
+
+str(LA_MOLINA_2014_POTATO_WUE_FB_fb)
+
+```
+
+```{r}
+
+# Cargar el paquete tidyverse
+library(tidyverse)
+
+# Convertir las variables a factor
+
+LA_MOLINA_2014_POTATO_WUE_FB_fb <- LA_MOLINA_2014_POTATO_WUE_FB_fb %>%
+  mutate(
+    riego  = as_factor(riego),
+    geno   = as_factor(geno),
+    bloque = as_factor(bloque)
+  )
+
+str(LA_MOLINA_2014_POTATO_WUE_FB_fb)
+```
+
+```{r}
+LA_MOLINA_2014_POTATO_WUE_FB_fb <- LA_MOLINA_2014_POTATO_WUE_FB_fb %>%
+  mutate(
+    across(1:4, ~as.factor(.)
+  ))
+
+str(LA_MOLINA_2014_POTATO_WUE_FB_fb)
+```
+
+
+COMPARACIÓN DE MEDIAS
+
+```{r}
+library(emmeans)
+
+# Comparación de medias de geno dentro de cada nivel de ríego
+
+emm <- emmeans(md, ~ geno | riego)
+
+emm
+```
