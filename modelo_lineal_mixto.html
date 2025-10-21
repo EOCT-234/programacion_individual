@@ -138,7 +138,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="métodos-lineales-múltiples">Métodos lineales múltiples</h2>
 <p>Pasos para anlisis de datos:</p>
 <ol type="1">
-<li>Crear diseño =&gt; bajo modelo estadístico:</li>
+<li>Crear diseño = bajo modelo estadístico:</li>
 <li>Colectar datos</li>
 <li>Importar y verificar los factores</li>
 </ol>
@@ -168,16 +168,48 @@ The following objects are masked from 'package:tidyr':
 
     expand, pack, unpack</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome to emmeans.
+Caution: You lose important information if you filter this package's results.
+See '? untidy'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Cargando paquete requerido: carData
+
+Adjuntando el paquete: 'car'
+
+The following object is masked from 'package:dplyr':
+
+    recode
+
+The following object is masked from 'package:purrr':
+
+    some</code></pre>
+</div>
 </div>
 <p>Importar base de datos</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://docs.google.com/spreadsheets/d/15r7ZwcZZHbEgltlF6gSFvCTFA-CFzVBWwg3mFlRyKPs/edit?gid=172957346#gid=172957346"</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>gs <span class="ot">&lt;-</span> url <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_sheets_id</span>()</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>POTATO <span class="ot">&lt;-</span> gs <span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">range_read</span>(<span class="st">"fb"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="dv">1</span><span class="sc">:</span>bloque, <span class="sc">~</span><span class="fu">as.factor</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://docs.google.com/spreadsheets/d/15r7ZwcZZHbEgltlF6gSFvCTFA-CFzVBWwg3mFlRyKPs/edit?gid=172957346#gid=172957346"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>gs <span class="ot">&lt;-</span> url <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_sheets_id</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>POTATO <span class="ot">&lt;-</span> gs <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">range_read</span>(<span class="st">"fb"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="dv">1</span><span class="sc">:</span>bloque, <span class="sc">~</span><span class="fu">as.factor</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Suitable tokens found in the cache, associated with these emails:</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• '7574265122@untrm.edu.pe'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• 'campostroyesedgar@gmail.com'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  Defaulting to the first email.</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
 <pre><code>! Using an auto-discovered, cached token.</code></pre>
 </div>
@@ -201,7 +233,7 @@ The following objects are masked from 'package:tidyr':
 <div class="cell-output cell-output-stderr">
 <pre><code>✔ Range ''fb''.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(POTATO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(POTATO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [150 × 18] (S3: tbl_df/tbl/data.frame)
  $ riego  : Factor w/ 2 levels "irrigado","sequia": 2 2 1 2 1 1 1 1 2 2 ...
@@ -225,8 +257,8 @@ The following objects are masked from 'package:tidyr':
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>POTATO <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"C:/Users/ASUS/Downloads/LA MOLINA 2014 POTATO WUE (FB) - fb.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>POTATO <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"C:/Users/ASUS/Downloads/LA MOLINA 2014 POTATO WUE (FB) - fb.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 150 Columns: 18
 ── Column specification ────────────────────────────────────────────────────────
@@ -237,7 +269,7 @@ dbl (15): block, spad_29, spad_83, rwc_84, op_84, leafdw, stemdw, rootdw, tu...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(POTATO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(POTATO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Modelo:</p>
 <p><span class="math display">\[
@@ -247,14 +279,28 @@ wue_{tuber] = \mu + bloque + geno + riego*geno + e
 <li>ANOVA (aov o lm en R)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>md <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="at">formula =</span> twue <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>bloque) <span class="sc">+</span> riego<span class="sc">*</span>geno, <span class="at">data =</span> POTATO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="at">formula =</span> twue <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>bloque) <span class="sc">+</span> riego<span class="sc">*</span>geno</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>           , <span class="at">data =</span> POTATO)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(fm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type II Wald chisquare tests)
+
+Response: twue
+             Chisq Df Pr(&gt;Chisq)    
+riego      202.596  2    &lt; 2e-16 ***
+geno       610.035 14    &lt; 2e-16 ***
+riego:geno  23.735 14    0.04932 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
 </div>
 <ol start="5" type="1">
-<li>Comparación de medias</li>
+<li><p>Comparación de medias</p></li>
+<li><p>Boxplot o gráfico</p></li>
 </ol>
-<ol start="6" type="1">
-<li>Boxplot o gráfico</li>
-</ol>
+<p>github page: clase que se ha hecho base de datos: tomar 3 variables y analizar</p>
 </section>
 
 </main>

@@ -20,6 +20,7 @@ library(tidyverse)
 library(googlesheets4)
 library(lme4)
 library(emmeans)
+library(car)
 ```
 
 Importar base de datos
@@ -51,26 +52,11 @@ $$
 4.  ANOVA (aov o lm en R)
 
 ```{r}
-md <- lmer(formula = twue ~ 0 + (1|bloque) + riego*geno, data = POTATO)
+fm <- lmer(formula = twue ~ 0 + (1|bloque) + riego*geno
+           , data = POTATO)
 
-anova()
-
-anova <- aov(variable_dependiente ~ factor_grupo, data = datos)
-
-# 4. Ver resultados
-summary(modelo_anova)
-
-# 5. Verificar supuestos
-# Normalidad de residuos
-shapiro.test(residuals(modelo_anova))
-plot(modelo_anova, which = 2) # Q-Q plot
-
-# Homogeneidad de varianzas
 library(car)
-leveneTest(variable_dependiente ~ factor_grupo, data = datos)
-
-# 6. Pruebas post-hoc (si el ANOVA es significativo)
-TukeyHSD(modelo_anova)
+Anova(fm)
 ```
 
 
@@ -78,15 +64,8 @@ TukeyHSD(modelo_anova)
 
 5. Comparación de medias
 
-```{r}
-anova <- 
-  
-  
-```
-
 6. Boxplot o gráfico
-```{r}
 
-```
-
+github page: clase que se ha hecho
+base de datos: tomar 3 variables y analizar
 
