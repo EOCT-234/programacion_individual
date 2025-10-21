@@ -9,7 +9,7 @@ editor: visual
 
 Pasos para anlisis de datos:
 
-1.  Crear diseño =\> bajo modelo estadístico:
+1.  Crear diseño = bajo modelo estadístico:
 2.  Colectar datos
 3.  Importar y verificar los factores
 
@@ -19,6 +19,7 @@ Librerias
 library(tidyverse)
 library(googlesheets4)
 library(lme4)
+library(emmeans)
 ```
 
 Importar base de datos
@@ -52,15 +53,40 @@ $$
 ```{r}
 md <- lmer(formula = twue ~ 0 + (1|bloque) + riego*geno, data = POTATO)
 
+anova()
 
+anova <- aov(variable_dependiente ~ factor_grupo, data = datos)
 
+# 4. Ver resultados
+summary(modelo_anova)
 
+# 5. Verificar supuestos
+# Normalidad de residuos
+shapiro.test(residuals(modelo_anova))
+plot(modelo_anova, which = 2) # Q-Q plot
+
+# Homogeneidad de varianzas
+library(car)
+leveneTest(variable_dependiente ~ factor_grupo, data = datos)
+
+# 6. Pruebas post-hoc (si el ANOVA es significativo)
+TukeyHSD(modelo_anova)
 ```
+
+
+
 
 5. Comparación de medias
 
 ```{r}
-
+anova <- 
+  
+  
 ```
 
 6. Boxplot o gráfico
+```{r}
+
+```
+
+
