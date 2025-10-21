@@ -1,0 +1,66 @@
+---
+title: "Metodos lineales mixtos"
+author: "Troyes"
+format: html
+editor: visual
+---
+
+## Métodos lineales múltiples
+
+Pasos para anlisis de datos:
+
+1.  Crear diseño =\> bajo modelo estadístico:
+2.  Colectar datos
+3.  Importar y verificar los factores
+
+Librerias
+
+```{r}
+library(tidyverse)
+library(googlesheets4)
+library(lme4)
+```
+
+Importar base de datos
+
+```{r}
+url <- "https://docs.google.com/spreadsheets/d/15r7ZwcZZHbEgltlF6gSFvCTFA-CFzVBWwg3mFlRyKPs/edit?gid=172957346#gid=172957346"
+gs <- url %>%
+  as_sheets_id()
+
+POTATO <- gs %>%
+  range_read("fb") %>%
+  mutate(across(1:bloque, ~as.factor(.)))
+
+str(POTATO)
+```
+
+```{r}
+library(readr)
+POTATO <- read_csv("C:/Users/ASUS/Downloads/LA MOLINA 2014 POTATO WUE (FB) - fb.csv")
+View(POTATO)
+```
+
+Modelo:
+
+$$
+wue_{tuber] = \mu + bloque + geno + riego*geno + e
+$$
+
+4.  ANOVA (aov o lm en R)
+
+```{r}
+md <- lmer(formula = twue ~ 0 + (1|bloque) + riego*geno, data = POTATO)
+
+
+
+
+```
+
+5. Comparación de medias
+
+```{r}
+
+```
+
+6. Boxplot o gráfico
