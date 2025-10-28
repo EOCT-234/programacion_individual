@@ -1,0 +1,135 @@
+---
+title: "Analisis multivariado"
+author: "Edgar"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+# Descripción de la librería o paquete:
+
+paquete + cran \# Flecha : \<- = alt + - \# brnach: %\>% = ctrl + shift + m \# usar separación decimal en reglamento: , \# archivo: configuración: configuración original de (país) \# ctrl + shif + g = para
+
+# Librería
+
+```{r}
+library(googlesheets4)
+library(tidyverse)
+library(lme4)
+library(emmeans)
+library(FactoMineR)
+library(ggplot2)
+library(multcomp)
+
+```
+
+# llamada de datos:
+
+```{r}
+url <- "https://docs.google.com/spreadsheets/d/1o4mtAkI1lBgoUzqDT-e7cIhIwh_K5m6CoxAx0ETvwXU/edit?gid=1753270824#gid=1753270824"
+gs <- url %>%
+  as_sheets_id()
+
+fb <- gs %>%
+  range_read(sheet = "fb") %>%  
+  mutate(across(c(tratamientos:bloque), factor)) #para hacer factor esas columnas
+
+View(fb)
+```
+
+# ver datos
+
+```{r}
+head(fb)
+
+
+```
+
+El factor con mayor número de categorías va en X
+
+# Modelo lineal
+
+$$ rendiminto_g_ha = densidad + porcinaza + bloque + densidad*porcinaza + e $$
+
+# ANOVA
+
+```{r}
+md <- lm(rendiminto_g_ha ~ bloque + porcinaza* densidad, data = fb)
+
+anova(md)
+```
+
+```{r}
+
+
+
+
+```
+
+# Comparación de medias
+
+### oyama
+
+### instalación de OLLAMA
+
+### 1. Ir y burcas ollama.com
+
+#### 2. descargar e instalar
+
+##### 3. usar modelo cloud e interactuar con el modelo
+
+#### 4. escribir en la console: ollamar::model_avallavall
+
+##### 5. ollamar paquete instalar
+
+##### 6. ollamar::list_models
+
+7\. paquete nuevo: gander, permite usar ollamar u otra IA
+
+8\. instalar gander
+
+9\. usethis::edit_r_profile( dar enter) \# instalar paquete usethis "deepseek v3
+
+##### 10. options(.gander_chat = ellmer:: chat_ollama(model = "deepseek-v3, 1:6771b-cloud"))
+
+#### 10. instalar ellmer
+
+11. IA disponibles: ollamar::trhi_models "console" lista de IA disponibles para el computador
+
+12. copiar el modelo a usar 13 usethis::edit_r_profile "enter"
+
+13. cerrar y se graba
+
+14. activar en gander: ctrl + shif + g "recomendado" pasos:
+
+<!-- -->
+
+a.  tools
+b.  modifical acceso directo
+c.  buscar gander
+d.  copiar el atajo
+e.  apply
+
+<!-- -->
+
+16. dar acceso directo: pasos:
+
+<!-- -->
+
+a.  session
+b.  terminate R
+
+<!-- -->
+
+17. prueba con "chang"
+
+base de datos:
+
+usar gander:
+
+decirle que haga un boxplot en el eje x vaya nivel de pocinaza agrupada para rendimineto de gramos por hectarea
+
+```{r}
+
+```

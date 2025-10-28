@@ -59,13 +59,143 @@ library(car)
 Anova(fm)
 ```
 
-
-
-
 5. Comparación de medias
 
+por grupo:
+
+```{r}
+POTATO %>%
+  group_by(riego, geno) %>%
+  summarise(
+    n = n(),
+    media = mean(twue, na.rm = TRUE),
+    desv_est = sd(twue, na.rm = TRUE),
+    error_est = sd(twue, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+```
+
+un factor:
+```{r}
+POTATO %>%
+  group_by(riego) %>%
+  summarise(
+    media = mean(twue),
+    sd = sd(twue),
+    n = n()
+  )
+```
+
+
+```{r}
+library(tidyverse)
+
+# Medias por grupo
+POTATO %>%
+  group_by(riego, geno) %>%
+  summarise(
+    n = n(),
+    media = mean(twue, na.rm = TRUE),
+    desv_est = sd(twue, na.rm = TRUE),
+    error_est = sd(twue, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+# Solo por un factor
+POTATO %>%
+  group_by(riego) %>%
+  summarise(
+    media = mean(twue),
+    sd = sd(twue),
+    n = n()
+  )
+```
+
+```{r}
+# Calcular estadísticas
+resumen <- POTATO %>%
+  group_by(riego, geno) %>%
+  summarise(
+    media = mean(twue),
+    se = sd(twue) / sqrt(n()),
+    .groups = "drop"
+  )
+
+# Gráfico de barras
+ggplot(resumen, aes(x = geno, y = media, fill = riego)) +
+  geom_col(position = position_dodge()) +
+  geom_errorbar(aes(ymin = media - se, ymax = media + se),
+                width = 0.2,
+                position = position_dodge(0.9)) +
+  theme_minimal() +
+  labs(title = "Comparación de medias por genotipo y riego",
+       x = "Genotipo",
+       y = "TWUE (media ± SE)")
+
+# Gráfico de puntos con IC
+ggplot(resumen, aes(x = geno, y = media, color = riego)) +
+  geom_point(size = 3, position = position_dodge(0.3)) +
+  geom_errorbar(aes(ymin = media - se, ymax = media + se),
+                width = 0.2,
+                position = position_dodge(0.3)) +
+  theme_bw() +
+  labs(y = "TWUE")
+```
+
+
+
 6. Boxplot o gráfico
+```{r}
+POTATO %>%
+  ggplot(aes(x = riego, y = twue, fill = geno)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Distribución de TWUE",
+       x = "Riego",
+       y = "TWUE")
+
+# Con puntos individuales
+POTATO %>%
+  ggplot(aes(x = interaction(riego, geno), y = twue, fill = riego)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+```{r}
+# Verificar si hay datos suficientes
+POTATO %>%
+  filter(geno == "G1") %>%
+  group_by(riego) %>%
+  summarise(n = n())
+
+# Cambiar el genotipo si "G1" no existe
+POTATO %>%
+  count(geno)  # Ver qué genotipos existen
+```
+
+
+```{r}
+library(knitr)
+library(kableExtra)
+
+POTATO %>%
+  group_by(riego, geno) %>%
+  summarise(
+    N = n(),
+    Media = round(mean(twue), 2),
+    DE = round(sd(twue), 2),
+    Min = round(min(twue), 2),
+    Max = round(max(twue), 2),
+    .groups = "drop"
+  ) %>%
+  kable() %>%
+  kable_styling()
+```
 
 github page: clase que se ha hecho
 base de datos: tomar 3 variables y analizar
-
+el analisis factorial se lee de abajo hacia arriba
+git 
