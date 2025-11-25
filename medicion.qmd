@@ -7,11 +7,11 @@ editor: visual
 
 ## Integrantes
 
-- Campos Troyes, Edgar Orlando
-- Tapia Chavarri. Britney Emeli
-- 
-- 
-- 
+-   Campos Troyes, Edgar Orlando
+-   Tapia Chavarri. Britney Emeli
+-   
+-   
+-   
 
 ## Librerías
 
@@ -94,57 +94,65 @@ plots <- mapply(function(img, nombre) {
 plot_grid(plotlist = plots, ncol = 5)
 
 ```
-```
-
 
 ## Pasos de la medición manual
 
 ### Paso 1
+
 Calibrar la imágen y para ello las fotos fueron tomadas con un regla al costado que servirá como escala para extraer las medidas de Largo, Ancho y Área de las hojas.
+
 ```{r}
 urlp1 <- "https://drive.google.com/uc?export=download&id=1MSl6Iyz_TmRS5tas6JwGLi7YJSY7tkNa"
 imgp1 <- image_read(urlp1)
 plot(imgp1)
 ```
-La calibración se hizo tomando la herramienta "Straight" y acercando la imagen tanto que fuera posible colocar una línea desde el centímetro "0" al centímetro "1", luego: Analize -> Set Scale -> en Know distance se escribía la cantidad de centímetros medidos y en Unit of length se escribió la unidad "cm", finalmente "OK".
+
+La calibración se hizo tomando la herramienta "Straight" y acercando la imagen tanto que fuera posible colocar una línea desde el centímetro "0" al centímetro "1", luego: Analize -\> Set Scale -\> en Know distance se escribía la cantidad de centímetros medidos y en Unit of length se escribió la unidad "cm", finalmente "OK".
 
 ### Paso 2
-Cargar la imágen, la cual se hizo mediante File -> Opne (Ctrl + O) y se selcionaba la imagen.
+
+Cargar la imágen, la cual se hizo mediante File -\> Opne (Ctrl + O) y se selcionaba la imagen.
+
 ```{r}
 urlp2 <- "https://drive.google.com/uc?export=download&id=1IlckiTWpsGzEgmh-76C4ukYrc8Te8VGl"
 imgp2 <- image_read(urlp2)
 plot(imgp2)
 ```
+
 ### Paso 3
-Se seleccionó Image -> 
-Adjust -> Color Treshold y con la ventana emergente se buscó el filtro adecuado tal que se pintara la hoja completa.
+
+Se seleccionó Image -\> Adjust -\> Color Treshold y con la ventana emergente se buscó el filtro adecuado tal que se pintara la hoja completa.
+
 ```{r}
 urlp3 <- "https://drive.google.com/uc?export=download&id=1IMa013BTFppvspvGqfENtjKwS7jztfEM"
 imgp3 <- image_read(urlp3)
 plot(imgp3)
 ```
+
 ### Paso 4
-Con el filtro correcto el procedimiento siguiente era: Analize -> Analize Particles y en la ventana emergente:
- - Size (1-Infinity)
- - Show (Masks)
+
+Con el filtro correcto el procedimiento siguiente era: Analize -\> Analize Particles y en la ventana emergente: - Size (1-Infinity) - Show (Masks)
+
 ```{r}
 urlp4 <- "https://drive.google.com/uc?export=download&id=1EOPAC-KTF2MHIKK3nxBPe8m-n8sNJisP"
 imgp4 <- image_read(urlp4)
 plot(imgp4)
 ```
+
 Finalmente "OK" y la tabla en la que se guadaba atomáticamente los datos aparecía.
+
 ```{r}
 urlp5 <- "https://drive.google.com/uc?export=download&id=17Rnsq4CIENqNQgVcbyY9uU76671rpWI9"
 imgp5 <- image_read(urlp5)
 plot(imgp5)
 ```
 
-
-###Video sobre el procedimiento realizado
+### Video sobre el procedimiento realizado
 
 https://drive.google.com/file/d/1lvFd9IwVYwDmb75-5tVf4ziXNvXcP0K4/view?usp=drive_link
 
-## Base de datos obtenida de la medición manual
+##Base de datos obtenida de la medición manual
+
 ```{r}
 url <- "https://docs.google.com/spreadsheets/d/1XddbJV_9Ru2_ns5UJX_xJ7c7wQ9g_u5Jge-AJNpdVdQ/edit?usp=sharing
 "
@@ -156,13 +164,3 @@ MEDICION <- gs %>%
 
 View(MEDICION)
 ```
-
-
-
-
-
-
-
-
-
-
