@@ -1,0 +1,168 @@
+---
+title: "Medición manual"
+author: "Grupo 5"
+format: html
+editor: visual
+---
+
+## Integrantes
+
+- Campos Troyes, Edgar Orlando
+- Tapia Chavarri. Britney Emeli
+- 
+- 
+- 
+
+## Librerías
+
+```{r}
+library(googledrive)
+library(magick)
+library(cowplot)
+library(ggplot2)
+library(grid)
+library(htmltools)
+library(httr)
+library(googlesheets4)
+```
+
+## Descarga de imágenes
+
+```{r}
+gs4_deauth()
+
+sheet_id <- "1XddbJV_9Ru2_ns5UJX_xJ7c7wQ9g_u5Jge-AJNpdVdQ"
+
+nombres_sheet <- read_sheet(sheet_id, sheet = "MEDICION", range = "A:A")
+
+nombres_imagenes <- nombres_sheet[[1]]
+
+IMAGENES <- as_id("1pv3_1awIPfNOG9ZR2jCWH8xkxYaGVREK")
+
+archivos <- drive_ls(IMAGENES)
+
+mime <- sapply(archivos$drive_resource, function(x) x$mimeType)
+archivos$mime_type <- mime
+
+imagenes_drive <- archivos[
+  grepl("image", archivos$mime_type) &
+  grepl("^Luc", archivos$name),
+]
+
+dir.create("imagenes", showWarnings = FALSE)
+
+for (i in seq_len(nrow(imagenes_drive))) {
+  nombre_nuevo <- paste0(nombres_imagenes[i], ".jpg")
+  
+  local_path <- file.path("imagenes", nombre_nuevo)
+  
+  drive_download(
+    as_id(imagenes_drive$id[i]),
+    path = local_path,
+    overwrite = TRUE
+  )
+  
+  message("Guardada como: ", nombre_nuevo)
+}
+
+imgs_files <- list.files("imagenes", full.names = TRUE)
+
+orden_correcto <- match(paste0(nombres_imagenes, ".jpg"), basename(imgs_files))
+
+imgs_files <- imgs_files[orden_correcto]
+nombres_finales <- nombres_imagenes
+
+imgs <- lapply(imgs_files, image_read)
+
+plots <- mapply(function(img, nombre) {
+
+  ggdraw() +
+    draw_grob(
+      rasterGrob(as.raster(img)),
+      x = 0, y = 0, width = 1, height = 1
+    ) +
+    draw_label(
+      nombre,
+      x = 0.5, y = 0.05,
+      fontface = "bold",
+      size = 10,
+      color = "black"
+    )
+
+}, imgs, nombres_finales, SIMPLIFY = FALSE)
+
+plot_grid(plotlist = plots, ncol = 5)
+
+```
+```
+
+
+## Pasos de la medición manual
+
+### Paso 1
+Calibrar la imágen y para ello las fotos fueron tomadas con un regla al costado que servirá como escala para extraer las medidas de Largo, Ancho y Área de las hojas.
+```{r}
+urlp1 <- "https://drive.google.com/uc?export=download&id=1MSl6Iyz_TmRS5tas6JwGLi7YJSY7tkNa"
+imgp1 <- image_read(urlp1)
+plot(imgp1)
+```
+La calibración se hizo tomando la herramienta "Straight" y acercando la imagen tanto que fuera posible colocar una línea desde el centímetro "0" al centímetro "1", luego: Analize -> Set Scale -> en Know distance se escribía la cantidad de centímetros medidos y en Unit of length se escribió la unidad "cm", finalmente "OK".
+
+### Paso 2
+Cargar la imágen, la cual se hizo mediante File -> Opne (Ctrl + O) y se selcionaba la imagen.
+```{r}
+urlp2 <- "https://drive.google.com/uc?export=download&id=1IlckiTWpsGzEgmh-76C4ukYrc8Te8VGl"
+imgp2 <- image_read(urlp2)
+plot(imgp2)
+```
+### Paso 3
+Se seleccionó Image -> 
+Adjust -> Color Treshold y con la ventana emergente se buscó el filtro adecuado tal que se pintara la hoja completa.
+```{r}
+urlp3 <- "https://drive.google.com/uc?export=download&id=1IMa013BTFppvspvGqfENtjKwS7jztfEM"
+imgp3 <- image_read(urlp3)
+plot(imgp3)
+```
+### Paso 4
+Con el filtro correcto el procedimiento siguiente era: Analize -> Analize Particles y en la ventana emergente:
+ - Size (1-Infinity)
+ - Show (Masks)
+```{r}
+urlp4 <- "https://drive.google.com/uc?export=download&id=1EOPAC-KTF2MHIKK3nxBPe8m-n8sNJisP"
+imgp4 <- image_read(urlp4)
+plot(imgp4)
+```
+Finalmente "OK" y la tabla en la que se guadaba atomáticamente los datos aparecía.
+```{r}
+urlp5 <- "https://drive.google.com/uc?export=download&id=17Rnsq4CIENqNQgVcbyY9uU76671rpWI9"
+imgp5 <- image_read(urlp5)
+plot(imgp5)
+```
+
+
+###Video sobre el procedimiento realizado
+
+https://drive.google.com/file/d/1lvFd9IwVYwDmb75-5tVf4ziXNvXcP0K4/view?usp=drive_link
+
+## Base de datos obtenida de la medición manual
+```{r}
+url <- "https://docs.google.com/spreadsheets/d/1XddbJV_9Ru2_ns5UJX_xJ7c7wQ9g_u5Jge-AJNpdVdQ/edit?usp=sharing
+"
+gs <- url %>%
+  as_sheets_id()
+
+MEDICION <- gs %>%
+  range_read(sheet = "MEDICION")
+
+View(MEDICION)
+```
+
+
+
+
+
+
+
+
+
+
