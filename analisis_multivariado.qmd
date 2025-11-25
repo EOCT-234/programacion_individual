@@ -64,7 +64,6 @@ anova(md)
 
 
 
-
 ```
 
 # Comparación de medias
@@ -130,6 +129,4 @@ usar gander:
 
 decirle que haga un boxplot en el eje x vaya nivel de pocinaza agrupada para rendimineto de gramos por hectarea
 
-```{r}
-
-```
+# curso sobre como hacer PCA
